@@ -1,0 +1,43 @@
+class Solution {
+    public boolean exist(char[][] grid , String word) {
+        //StringBuilder sb = new StringBuilder("") ;
+
+        int m = grid.length ;
+        int n =  grid[0].length ;
+        int [][] vis = new int[m][n] ;
+        for(int i = 0 ; i<m ; i++){
+            for(int j = 0 ; j<n ; j++){
+                if(wordsearch(grid , i , j , vis ,new StringBuilder("") , word)) {
+                    return true ;
+                }
+            }
+        }
+        return false ;
+    }
+
+static boolean wordsearch(char[][] grid, int i, int j, int[][] vis, StringBuilder sb, String word) {
+    if (i < 0 || i == grid.length || j < 0 || j == grid[0].length || vis[i][j] == 1) return false;
+
+    sb.append(grid[i][j]);
+    vis[i][j] = 1;
+
+    //System.out.println("Visiting: (" + i + "," + j + ") | sb: " + sb.toString());
+
+    if (sb.toString().equals(word)){
+        return true ;
+    }
+
+    if (wordsearch(grid, i + 1, j, vis, sb, word) ||
+        wordsearch(grid, i - 1, j, vis, sb, word) ||
+        wordsearch(grid, i, j + 1, vis, sb, word) ||
+        wordsearch(grid, i, j - 1, vis, sb, word)) {
+        vis[i][j] = 0;
+        sb.deleteCharAt(sb.length() - 1);
+        return true;
+    }
+
+    vis[i][j] = 0;
+    sb.deleteCharAt(sb.length() - 1);
+    return false;
+    }
+}
